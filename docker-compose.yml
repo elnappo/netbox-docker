@@ -2,7 +2,6 @@ version: '3'
 services:
     netbox:
         build: .
-        image: digitalocean/netbox:v2.0-beta2
         depends_on:
         - postgres
         env_file: netbox.env
@@ -10,17 +9,17 @@ services:
         - netbox-nginx-config:/etc/netbox-nginx/
         - netbox-static-files:/opt/netbox/netbox/static
     nginx:
-        image: nginx:1.11-alpine
+        image: nginx:latest
         command: nginx -g 'daemon off;' -c /etc/netbox-nginx/nginx.conf
         depends_on:
         - netbox
         ports:
-        - 80
+        - "80:80"
         volumes:
         - netbox-static-files:/opt/netbox/netbox/static
         - netbox-nginx-config:/etc/netbox-nginx/
     postgres:
-        image: postgres:9.6-alpine
+        image: postgres:latest
         environment:
             POSTGRES_USER: netbox
             POSTGRES_PASSWORD: J5brHrAXFLQSif0K
